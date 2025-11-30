@@ -72,23 +72,34 @@ namespace stack
 
     std::size_t count(const Handle handle)
     {
-        return handleMap[handle]->size;
+        if (valid(handle))
+        {
+            return handleMap[handle]->size;
+        }
+        return 0u;
     }
 
     void push(const Handle handle, const void* const data, const std::size_t size)
     {
-        Stack* stack = handleMap[handle];
-        Element* element = new Element(data, size, stack->top);
-        stack->top = element;
-        stack->size++;
+        if (valid(handle))
+        {
+            Stack* stack = handleMap[handle];
+            Element* element = new Element(data, size, stack->top);
+            stack->top = element;
+            stack->size++;
+        }
     }
 
     std::size_t pop(const Handle handle, void* const data, const std::size_t size)
     {
-        Stack* stack = handleMap[handle];
-        memcpy(data, stack->top->data, size);
-        stack->top = stack->top->next;
-        stack->size--;
-        return size;
+        if (valid(handle))
+        {
+            Stack* stack = handleMap[handle];
+            memcpy(data, stack->top->data, size);
+            stack->top = stack->top->next;
+            stack->size--;
+            return size;
+        }
+        return 0;
     }
 }
