@@ -61,6 +61,7 @@ namespace stack
     {
         if (valid(handle))
         {
+            handleMap.erase(handle);
             delete handleMap[handle];
         }
     }
